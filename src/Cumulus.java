@@ -18,6 +18,8 @@ public class Cumulus extends ReceiverAdapter {
 	private static String myId = null;
 	
 	private static final String APP_PATH = "/home/nilabjar/Books/Android/LearningCode/Cumulus/";
+	
+	private static String peer = null;
 
 	private class CumulusMsg {
 		String node_name;
@@ -64,7 +66,7 @@ public class Cumulus extends ReceiverAdapter {
 			}
 			
 			try {
-				Thread.sleep(5000);
+				Thread.sleep(15000);
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -86,6 +88,8 @@ public class Cumulus extends ReceiverAdapter {
 			
 			while (in.hasNextLine())
 				paths.add(in.nextLine());
+			
+			in.close();
 			
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
@@ -130,7 +134,7 @@ public class Cumulus extends ReceiverAdapter {
 		StringBuilder s = new StringBuilder ();
 		ArrayList<String> strings = new ArrayList<String> ();
 		
-		String peer = readStringFromBuf(bbuf);
+		peer = readStringFromBuf(bbuf);
 		
 		// get the number of strings 
 		int nos = bbuf.getInt();
@@ -155,7 +159,10 @@ public class Cumulus extends ReceiverAdapter {
 		
 		ArrayList<String> strings = unmarshall (msg.getBuffer());
 		
+		System.out.println("User " + peer + " has shared the following files");
+		System.out.println("================================================");
 		for (String s : strings)
 			System.out.println (s);
+		System.out.println("================================================\n");
 	}
 }
