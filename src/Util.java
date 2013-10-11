@@ -8,12 +8,17 @@ public class Util {
 	// the various message ids
 	public static final int UPDATE_MSG = 1;
 	public static final int FETCH_FILE = 2;
+	public static final int FILE_REQ = 3;
+	public static final int FILE_RSP = 4;	
 	
 	
 	public static class CloudMsg {
-		String peer;
+		String source;
+		String dest;
 		int msgType = 0;
 		ArrayList<String> params;
+		int bytesCount;
+		byte[] data;
 	};
 	
 	public static byte[] marshall(CloudMsg msg) {	
