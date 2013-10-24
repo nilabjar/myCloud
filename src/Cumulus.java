@@ -6,6 +6,8 @@ public class Cumulus {
 	public static String myId = null;
 	public static String APP_PATH = "";
 	
+	public static FileManager fm = null;
+	
 	/**
 	 * @param args 
 	 */
@@ -26,6 +28,8 @@ public class Cumulus {
 
 		Scanner in = new Scanner(System.in);
 		
+		fm = new FileManager(ncm);
+		
 		boolean done = false;
 		
 		while (!done) {
@@ -44,7 +48,8 @@ public class Cumulus {
 				// show peer files ... 
 				pd.printPeerFiles (name);
 				System.out.println("Which file do you want ?");
-				String file = in.nextLine();
+				String file = in.next();
+				fm.sendFileRequest(file, name);
 				break;
 			case 2:
 				done = true;

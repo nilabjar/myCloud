@@ -7,37 +7,50 @@ public class Util {
 	
 	// the various message ids
 	public static final int UPDATE_MSG = 1;
-	public static final int FETCH_FILE = 2;
-	public static final int FILE_REQ = 3;
-	public static final int FILE_RSP = 4;	
+	public static final int FILE_REQ = 2;
+	public static final int FILE_RSP = 3;	
 	
 	
 	public static class CloudMsg {
 		String source;
-		String dest;
+		String dest = "All";
 		int msgType = 0;
 		ArrayList<String> params;
-		int bytesCount;
+		int bytesCount = 0;
 		byte[] data;
 	};
 	
 	public static byte[] marshall(CloudMsg msg) {	
 	//public static byte[] marshall(String id, ArrayList<String> strs) {
 		
-		int total_bytes = 100;
+		int total_bytes = 1024;
 		
 		ByteBuffer bb = ByteBuffer.allocate(total_bytes);
 		bb.order(ByteOrder.LITTLE_ENDIAN);
 		
 		// write my id first .... 
-		writeStringToBuf(msg.peer, bb);
+		writeStringToBuf(msg.source, bb);
 		
+		//write the destination
+		writeStringToBuf(msg.dest, bb);
+		
+		//write the msgtype
+		bb.putInt(msg.msgType);
+		
+		//write the params ...
 		bb.putInt(msg.params.size());
 		
 		for (String s : msg.params) {
 			writeStringToBuf(s, bb);
 		}
 		
+		//write the bytes count
+		bb.putInt(msg.bytesCount);
+		
+		if (msg.bytesCount > 0) {
+			bb.put(msg.data);
+		}
+			
 		return bb.array();
 	}	
 	
@@ -59,13 +72,28 @@ public class Util {
 		
 		cm.params = new ArrayList<String> ();
 		
-		cm.peer = readStringFromBuf(bbuf);
+		//read the source 
+		cm.source = readStringFromBuf(bbuf);
+		
+		//read the dest
+		cm.dest = readStringFromBuf(bbuf);
+		
+		// read the msg type
+		cm.msgType = bbuf.getInt();
 		
 		// get the number of strings 
 		int nos = bbuf.getInt();
 		
 		for (int i = 0;i < nos;i++) {
 			cm.params.add(readStringFromBuf(bbuf));
+		}
+		
+		//get the byte data 
+		cm.bytesCount = bbuf.getInt();
+		
+		if (cm.bytesCount > 0) {
+			cm.data = new byte[cm.bytesCount];
+			bbuf.get(cm.data, 0, cm.bytesCount);
 		}
 		
 		return cm;

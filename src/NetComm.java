@@ -53,10 +53,24 @@ public class NetComm extends ReceiverAdapter{
 	}
 	
 	public void receive(Message msg) {
-		//System.out.println("received msg from " + msg.getSrc() + ": " + msg.getObject());
+		//System.out.println("received msg from " + msg.getSrc());
 		
 		Util.CloudMsg cm = Util.unmarshall(msg.getBuffer());
+		
+		switch (cm.msgType) {
+		case Util.UPDATE_MSG:
+			//System.out.println("Update Message Received");
+			peerDb.updatePeerData(cm);
+			break;
+		case Util.FILE_RSP:
+			Cumulus.fm.receiveFile(cm);
+			break;
+		case Util.FILE_REQ:
+			Cumulus.fm.sendFile(cm);
+			break;
+		default:
+			break;
+		}
 
-		peerDb.updatePeerData(cm);
 	}
 }

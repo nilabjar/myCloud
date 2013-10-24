@@ -22,13 +22,16 @@ public class Updater extends Thread {
 		while (true) {
 			
 			Util.CloudMsg m = new Util.CloudMsg();
-			m.peer = mId;
+			m.source = mId;
+			m.dest = "All";
 			m.msgType = Util.UPDATE_MSG;
 			m.params = readFilePaths();
 
 			byte[] data = Util.marshall (m);
 
 			try {
+				//System.out.println("Sending Updates");
+
 				mNtComm.send(data);
 				//channel.send(null, "Hello World\n");
 			} catch (Exception e) {

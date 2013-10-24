@@ -14,9 +14,9 @@ public class PeerData {
 	}
 	
 	public void updatePeerData (Util.CloudMsg msg) {
-		mPeers.put(msg.peer, msg.params);
+		mPeers.put(msg.source, msg.params);
 		
-/*		System.out.println("User " + msg.peer + " has shared the following files");
+/*		System.out.println("User " + msg.source + " has shared the following files");
 		System.out.println("================================================");
 		for (String s : msg.params)
 			System.out.println (s);
@@ -32,7 +32,6 @@ public class PeerData {
 	    while (it.hasNext()) {
 	        Map.Entry pairs = (Map.Entry)it.next();
 	        System.out.println(pairs.getKey() + " = " + pairs.getValue());
-	        it.remove(); // avoids a ConcurrentModificationException
 	    }
 		
 	}
@@ -40,8 +39,11 @@ public class PeerData {
 	public void printPeerFiles(String peer) {
 		// TODO Auto-generated method stub
 		
+		System.out.println("Fetching peer data " + peer); 
 		ArrayList<String> files = 
 				mPeers.get(peer);
+		if (files == null)
+			System.out.println("No peer data " + peer); 
 		
 		for (String s : files) {
 			System.out.println(s);
