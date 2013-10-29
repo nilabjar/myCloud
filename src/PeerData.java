@@ -29,9 +29,13 @@ public class PeerData {
 		// TODO Auto-generated method stub
 		
 	    java.util.Iterator<Entry<String, ArrayList<String>>> it = mPeers.entrySet().iterator();
+	    // print the header ..... 
+	    System.out.println("\tPeer Name                   Files");
+	    System.out.println("\t===============================================================");
+	    
 	    while (it.hasNext()) {
 	        Map.Entry pairs = (Map.Entry)it.next();
-	        System.out.println(pairs.getKey() + " = " + pairs.getValue());
+	        System.out.println("\t" + pairs.getKey() + "  \t\t" + pairs.getValue());
 	    }
 		
 	}
@@ -39,14 +43,13 @@ public class PeerData {
 	public void printPeerFiles(String peer) {
 		// TODO Auto-generated method stub
 		
-		System.out.println("Fetching peer data " + peer); 
 		ArrayList<String> files = 
 				mPeers.get(peer);
 		if (files == null)
 			System.out.println("No peer data " + peer); 
 		
 		for (String s : files) {
-			System.out.println(s);
+			System.out.println("\t" + s);
 		}
 	}
 }

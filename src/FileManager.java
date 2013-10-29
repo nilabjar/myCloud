@@ -31,6 +31,8 @@ public class FileManager {
 	
 	public void receiveFile (Util.CloudMsg cm) {
 		
+		if (!cm.dest.equals(Cumulus.myId))
+			return;
 		System.out.println("Receiving File");
 		
 		try {
@@ -45,6 +47,8 @@ public class FileManager {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		
+		System.out.println("Received File");
 	}
 	
 	public void sendFile (Util.CloudMsg cm) {

@@ -35,27 +35,28 @@ public class Cumulus {
 		while (!done) {
 			
 			System.out.println("State your intent ?");
-			System.out.println("1. Do you want to see peers ?");
-			System.out.println("2. Quit ?");
+			System.out.println("\t1. Do you want to see peers ?");
+			System.out.println("\t2. Quit ?");
 
 			int choice = in.nextInt();
 
 			switch (choice) {
 			case 1:
-				System.out.println("Whose file do you want ?");
+				System.out.println("\nWhose file do you want ?");
 				pd.printPeers ();
 				String name = in.next(); // get the peer name 
 				// show peer files ... 
 				pd.printPeerFiles (name);
-				System.out.println("Which file do you want ?");
+				System.out.println("\nWhich file do you want ?");
 				String file = in.next();
 				fm.sendFileRequest(file, name);
 				break;
 			case 2:
 				done = true;
 				break;
+			default:
+				System.out.println("Cannot understand option");
 			}
-			System.out.println("State your intent ?");
 		}
 		
 		try {

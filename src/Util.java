@@ -18,12 +18,28 @@ public class Util {
 		ArrayList<String> params;
 		int bytesCount = 0;
 		byte[] data;
+		
+		public int getSize() {
+			int total = 0;
+			total += source.length() + 4;// +1 for the length data 
+			total += dest.length() + 4; 
+			total += 4; // for msgType
+			total += 4; // for the total number in the arraylist ...
+			for (String s : params) {
+				total += s.length();
+				total += 4; // one byte for writing length of each string ...
+			}
+			total += 4; // bytescount 
+			total += bytesCount; // total data length
+			
+			return total;
+		}
 	};
 	
 	public static byte[] marshall(CloudMsg msg) {	
 	//public static byte[] marshall(String id, ArrayList<String> strs) {
 		
-		int total_bytes = 1024;
+		int total_bytes = msg.getSize();
 		
 		ByteBuffer bb = ByteBuffer.allocate(total_bytes);
 		bb.order(ByteOrder.LITTLE_ENDIAN);
