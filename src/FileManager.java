@@ -60,6 +60,7 @@ public class FileManager {
 	
 		Util.CloudMsg msg = new Util.CloudMsg();
 		msg.source = Cumulus.myId;
+		msg.dest = cm.source;
 		msg.msgType = Util.FILE_RSP;
 		msg.params = new ArrayList<String>();
 		msg.params.add(cm.params.get(0));
